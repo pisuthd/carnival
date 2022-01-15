@@ -4,14 +4,14 @@ pragma solidity 0.6.12;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "./Whitelist.sol";
-import "../interfaces/ISyntheticToken.sol";
+import "../interfaces/IVaultToken.sol";
 
 /**
  * @title An ERC-20 with permissioned burning and minting. The contract deployer will initially
  * be the owner who is capable of adding new roles.
  */
 
-contract SyntheticToken is ERC20, Whitelist, ISyntheticToken {
+contract VaultToken is ERC20, Whitelist, IVaultToken {
     
     constructor(
         string memory _tokenName,
