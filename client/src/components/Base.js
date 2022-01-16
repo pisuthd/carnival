@@ -132,7 +132,7 @@ export const Buttons = styled.div`
 `
 
 export const Arrow = styled.i`
-    border: solid black;
+    border: solid #fff;
     border-width: 0 5px 5px 0;
     display: inline-block;
     padding: 3px;

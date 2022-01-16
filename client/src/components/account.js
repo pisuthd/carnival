@@ -2,7 +2,6 @@ import { useState } from "react"
 import styled from "styled-components"
 import { useWeb3React } from "@web3-react/core"
 
-
 import { Button } from "./Base"
 import WalletsModal from "./modals/WalletConnectModal"
 
@@ -14,8 +13,11 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-  width: 100vw; 
+  width: 100vw;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
 `
 
 const ConnectButton = styled(Button)`
@@ -41,19 +43,16 @@ const Account = () => {
           walletLoginVisible={walletLoginVisible}
         />
         <Container>
-
-          <div style={{ marginRight: "auto", marginLeft: "auto" }}>
-            {account ? (
-              <DisconnectButton onClick={deactivate}>
-                Disconnect 🔌
-              </DisconnectButton >
-            ) : (
-              <ConnectButton onClick={toggleWalletConnect}>
-                Connect 🏦
-              </ConnectButton>
-            )}
-          </div>
-
+          Carnival
+          {account ? (
+            <DisconnectButton onClick={deactivate}>
+              Disconnect 🔌
+            </DisconnectButton>
+          ) : (
+            <ConnectButton onClick={toggleWalletConnect}>
+              Connect 🏦
+            </ConnectButton>
+          )}
         </Container>
       </Wrapper>
     </>
