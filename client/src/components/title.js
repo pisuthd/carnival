@@ -40,9 +40,9 @@ const Title = () => {
     <Wrapper>
       <div style={{ width: "100vw", textAlign: "center" }}>
         <h1>Carnival</h1>
-        <div style={{ maxWidth: 400, marginLeft: "auto", marginRight: "auto" }}>
+        <div style={{ maxWidth: 600, marginLeft: "auto", marginRight: "auto" }}>
           <p>
-            Fractionalize NFT in ERC-721 & ERC-1155 on Harmony One chain
+            An auction-based NFT fractionalize project on Harmony chain
           </p>
         </div>
       </div>

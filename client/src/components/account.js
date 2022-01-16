@@ -22,10 +22,12 @@ const Container = styled.div`
 
 const ConnectButton = styled(Button)`
   width: 180px;
+  font-size: 16px;
 `
 
 const DisconnectButton = styled(ConnectButton)`
   display: inline;
+  
 `
 
 const Account = () => {
@@ -43,13 +45,12 @@ const Account = () => {
           walletLoginVisible={walletLoginVisible}
         />
         <Container>
-          Carnival
           {account ? (
-            <DisconnectButton onClick={deactivate}>
+            <DisconnectButton style={{margin : "auto"}} onClick={deactivate}>
               Disconnect 🔌
             </DisconnectButton>
           ) : (
-            <ConnectButton onClick={toggleWalletConnect}>
+            <ConnectButton style={{margin : "auto"}} onClick={toggleWalletConnect}>
               Connect 🏦
             </ConnectButton>
           )}

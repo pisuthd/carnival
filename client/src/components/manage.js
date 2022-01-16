@@ -4,6 +4,7 @@ import { ethers } from "ethers"
 import { Button } from "./Base"
 import { useWeb3React } from "@web3-react/core"
 import ReactHtmlParser from "react-html-parser"
+import { toast } from "react-toastify"
 import {
   Input,
   Modal,
@@ -14,6 +15,7 @@ import {
   InputGroup,
   Alert,
 } from "reactstrap"
+import { VaultContext } from "../hooks/useVault"
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -33,6 +35,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 16px;
+  
 `
 
 const HeaderContainer = styled.div`
@@ -168,12 +171,118 @@ const ClaimContainer = styled.div`
 	width: 30%;
 `
 
-const Box = () => {
-  return <BoxContainer>gang</BoxContainer>
+const Box = ({ data }) => {
+  return <BoxContainer>
+    <img src={data} />
+  </BoxContainer>
 }
 
 const Manage = ({ data, setBoxSelected }) => {
   const { account, library } = useWeb3React()
+
+  const { refPrice, contractState, auctionEnded, totalToken, totalSettlementToken, bid, bidders } = useContext(VaultContext)
+
+  const [amount, setAmount] = useState()
+  const [price, setPrice] = useState()
+
+  const onPlace = useCallback(async () => {
+
+    try {
+
+      if (amount === 0 && price === 0) {
+        throw new Error("Input Error")
+      }
+
+      const tx = await bid(amount, price)
+
+      toast.info("Bidding", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+
+      await tx.wait()
+
+      toast.info("Done", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+
+    } catch (e) {
+
+      console.log(e)
+
+      const msg =
+        e.data &&
+        e.data.message &&
+        e.data.message.substring(e.data.message.lastIndexOf(":") + 1)
+
+      toast.warn(`${msg || "Unknown Error"}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+    }
+
+  }, [amount, price])
+
+  // sorry we're hard-coded preview images here
+  const previews = useMemo(() => {
+    let result = []
+
+    if (totalToken && totalToken > 0) {
+
+      for (let i = 0; i < totalToken; i++) {
+        let url
+        switch (i) {
+          case 1:
+            url = "https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/1002.svg"
+            break;
+          case 2:
+            url = "https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/1003.svg"
+            break;
+          case 3:
+            url = "https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/1004.svg"
+            break;
+          case 4:
+            url = "https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/1005.svg"
+            break;
+          case 5:
+            url = "https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/1006.svg"
+            break;
+          case 6:
+            url = "https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/1007.svg"
+            break;
+          case 7:
+            url = "https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/1008.svg"
+            break;
+          default:
+            url = "https://img.cryptokitties.co/0x06012c8cf97bead5deae237070f9587f8e7a266d/1001.svg"
+        }
+        result.push(url)
+      }
+
+    }
+
+    return result
+  }, [totalToken])
+
+  const shortAddress = (address, first = 6, last = -4) => {
+    return `${address.slice(0, first)}...${address.slice(last)}`
+  }
 
   return (
     <Wrapper>
@@ -186,44 +295,55 @@ const Manage = ({ data, setBoxSelected }) => {
         </TitleContainer>
         <HeaderContainer>
           <div className='detail'>
-            <div className='top'>Expire In</div>
-            <div className='bottom'>4 Hrs</div>
-          </div>
-          <div className='detail'>
             <div className='top'>Stage</div>
-            <div className='bottom'>Auction</div>
+            <div className='bottom'>
+              {contractState === 0 && "Pre-Auction"}
+              {contractState === 1 && "Auction"}
+              {contractState === 2 && "Post-Auction"}
+
+            </div>
           </div>
           <div className='detail'>
-            <div className='top'>Vault Price</div>
-            <div className='bottom'>100 USDC</div>
+            <div className='top'>Expires At</div>
+            <div className='bottom'>
+              {auctionEnded.toLocaleTimeString()}
+            </div>
+          </div>
+
+          <div className='detail'>
+            <div className='top'>Floor Price</div>
+            <div className='bottom'>{refPrice} ONE</div>
           </div>
         </HeaderContainer>
+
         <AuctionContainer>
-          <div className='header'>Auction</div>
+          <div className='header'>Current Collection</div>
           <AuctionList>
-            {[0, 0, 0, 0, 0, 0, 0].map((data, index) => (
-              <Box key={index} />
+            {previews.map((data, index) => (
+              <Box key={index} data={data} />
             ))}
           </AuctionList>
         </AuctionContainer>
+
         <HeaderContainer>
           <div className='detail'>
             <div className='top'>To be issued</div>
-            <div className='bottom'>7 Punk</div>
+            <div className='bottom'>{totalToken} Kitties</div>
           </div>
           <div className='detail'>
             <div className='top'>Total deposited</div>
-            <div className='bottom'>400 USDC</div>
+            <div className='bottom'>{totalSettlementToken} ONE</div>
           </div>
-          <div className='detail'>
+          {/* <div className='detail'>
             <div className='top'>Participants</div>
             <div className='bottom'>3</div>
           </div>
           <div className='detail'>
             <div className='top'>Avg. Price</div>
             <div className='bottom'>1.5 USDC</div>
-          </div>
+          </div> */}
         </HeaderContainer>
+
         <ActionContainer>
           <TableContainer style={{ width: "70%" }}>
             <table style={{ width: "100%" }}>
@@ -239,7 +359,26 @@ const Manage = ({ data, setBoxSelected }) => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
+
+                {bidders.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <th scope='row'>1</th>
+                      <td>{shortAddress(item.address)}</td>
+                      <td>
+                        { (Number(item.amount)).toLocaleString()}
+                      </td>
+                      <td>
+                      { (Number(item.totalValue) / Number(item.amount)).toLocaleString()}
+                      </td>
+                      <td>
+                      { (Number(item.totalValue)).toLocaleString()}
+                      </td>
+                    </tr>
+                  )
+                })}
+
+                {/* <tr>
                   <th scope='row'>1</th>
                   <td>0xGang33...gggg</td>
                   <td>1</td>
@@ -259,23 +398,23 @@ const Manage = ({ data, setBoxSelected }) => {
                   <td>1</td>
                   <td>3</td>
                   <td>5</td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
           </TableContainer>
           <BuyContainer style={{ width: "30%" }}>
             <InputGroupContainer>
               <InputHeader>Amount</InputHeader>
-              <Input type='number' placeholder='Amount' />
+              <Input value={amount} onChange={(e) => setAmount(e.target.value)} type='number' placeholder='Amount' />
             </InputGroupContainer>
             <InputGroupContainer>
               <InputHeader>Price</InputHeader>
-              <Input type='number' placeholder='Price' />
+              <Input value={price} onChange={(e) => setPrice(e.target.value)} type='number' placeholder='Price' />
             </InputGroupContainer>
-            <Button color='primary'>Place</Button>
+            <Button onClick={onPlace} color='primary'>Place</Button>
           </BuyContainer>
         </ActionContainer>
-        <ReclaimContainer>
+        {/* <ReclaimContainer>
           <div className='header'>Reclaimation</div>
           <ReclaimListContainer>
             <ReclaimList>
@@ -283,11 +422,11 @@ const Manage = ({ data, setBoxSelected }) => {
                 <Box key={index} />
               ))}
             </ReclaimList>
-						<ClaimContainer>
-						<Button color='primary'>Claim</Button>
-						</ClaimContainer>
+            <ClaimContainer>
+              <Button color='primary'>Claim</Button>
+            </ClaimContainer>
           </ReclaimListContainer>
-        </ReclaimContainer>
+        </ReclaimContainer> */}
       </Container>
     </Wrapper>
   )

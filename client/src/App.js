@@ -5,6 +5,7 @@ import ParticlesBg from "particles-bg"
 import Title from "./components/title"
 import Assets from "./components/assets"
 import Manage from "./components/manage"
+import Footer from "./components/footer"
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -54,8 +55,10 @@ function App() {
           <>
             <Title />
             <Assets setBoxSelected={setBoxSelected} />
+             <Footer/>
           </>
         )}
+       
       </Wrapper>
     </>
   )

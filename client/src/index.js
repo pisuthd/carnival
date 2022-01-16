@@ -8,6 +8,7 @@ import { ToastContainer, Flip } from "react-toastify"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "react-toastify/dist/ReactToastify.css"
+import VaultContext from "./hooks/useVault"
 
 const getLibrary = (provider) => {
   const library = new ethers.providers.Web3Provider(provider)
@@ -18,19 +19,21 @@ const getLibrary = (provider) => {
 ReactDOM.render(
   <React.StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
-      <App />
-      <ToastContainer
-        position='top-right'
-        autoClose={5000}
-        transition={Flip}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <VaultContext>
+        <App />
+        <ToastContainer
+          position='top-right'
+          autoClose={5000}
+          transition={Flip}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </VaultContext>
     </Web3ReactProvider>
   </React.StrictMode>,
   document.getElementById("root")

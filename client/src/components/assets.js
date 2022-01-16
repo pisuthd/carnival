@@ -88,9 +88,9 @@ const Box = ({ data, setBoxSelected }) => {
 
 const Assets = ({ setBoxSelected }) => {
   let sliderRef = useRef()
-  const { account, library } = useWeb3React()
+  // const { account, library } = useWeb3React()
 
-  const boxes = [{ symbol: "Crypto punk" }, { symbol: "Bored ape yarhct club" }]
+  const boxes = [{ symbol: "Crypto Kitties" } ]
 
   const settings = {
     dots: false,

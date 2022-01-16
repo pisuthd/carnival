@@ -60,10 +60,8 @@ function WalletsModal({ toggleWalletConnect, walletLoginVisible }) {
 
   useEffect(() => {
     if (error && error.name === "UnsupportedChainIdError") {
-      //   toastr.warning("Unsupported Network", "Please switch to Polygon Mainnet")
-      // alert("Please switch to Polygon Mainnet")
 
-      toast.warn("Please switch to Polygon!", {
+      toast.warn("Please switch to Harmony Mainnet!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
