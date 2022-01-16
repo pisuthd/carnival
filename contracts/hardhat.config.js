@@ -20,15 +20,6 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.6.12",
-  networks: {
-    hardhat: {
-      allowUnlimitedContractSize :true,
-      forking: {
-        url: process.env.POLYGON_URL,
-        blockNumber: 20480699,
-      },
-    },
-  },
   mocha: {
     timeout: 1200000,
   },
