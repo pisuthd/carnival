@@ -135,6 +135,39 @@ const InputHeader = styled.div`
   margin-bottom: 8px;
 `
 
+const ReclaimContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+	margin-bottom: 40px;
+
+  .header {
+    font-size: 24px;
+    text-decoration: underline;
+  }
+`
+
+const ReclaimListContainer = styled.div`
+  display: flex;
+`
+
+const ReclaimList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+`
+
+const ClaimContainer = styled.div`
+  border-radius: 10px;
+  border: 3px solid #565049;
+  padding: 12px;
+  background-color: white;
+	height: 300px;
+  margin-top: 12px;
+  margin-left: 12px;
+	width: 30%;
+`
+
 const Box = () => {
   return <BoxContainer>gang</BoxContainer>
 }
@@ -242,6 +275,19 @@ const Manage = ({ data, setBoxSelected }) => {
             <Button color='primary'>Place</Button>
           </BuyContainer>
         </ActionContainer>
+        <ReclaimContainer>
+          <div className='header'>Reclaimation</div>
+          <ReclaimListContainer>
+            <ReclaimList>
+              {[0, 0, 0, 0, 0, 0, 0].map((data, index) => (
+                <Box key={index} />
+              ))}
+            </ReclaimList>
+						<ClaimContainer>
+						<Button color='primary'>Claim</Button>
+						</ClaimContainer>
+          </ReclaimListContainer>
+        </ReclaimContainer>
       </Container>
     </Wrapper>
   )

@@ -31,7 +31,10 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  height: 100vh;
+  overflow-y: scroll;
+`
 
 function App() {
   const [boxSelected, setBoxSelected] = useState()
@@ -39,7 +42,10 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <ParticlesBg type='square' bg={true} />
+      <ParticlesBg
+        type='square'
+        bg={true}
+      />
       <Wrapper>
         <Account />
         {boxSelected ? (
