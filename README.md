@@ -6,13 +6,15 @@
 
 ## Problem
 
-
+If you're the NFT creator, to tokenize your NFT 
 
 ## Solution
 
 ![Carnival (2)](https://user-images.githubusercontent.com/18402217/149610175-2d8e7cd5-adde-49a4-9432-79b1f67d5224.png)
 
 ## Live Demo
+
+https://nostalgic-nightingale-4643e1.netlify.app/
 
 ## Features
 
