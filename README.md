@@ -25,6 +25,7 @@
 Contract Name | Contract Address 
 --- | --- 
 Fake Cryptokitties NFT | 0x10Fe6ecb9a49276E068274711560CDe41Deb3f34 
+Vault | 0x62faCcbe7980E14C8adDB3F0399eBaeDE66350be
 
 ## License
 
