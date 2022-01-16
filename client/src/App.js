@@ -2,6 +2,9 @@ import { useState } from "react"
 import Account from "./components/account"
 import styled, { createGlobalStyle } from "styled-components"
 import ParticlesBg from "particles-bg"
+import Title from "./components/title"
+import Assets from "./components/assets"
+import Manage from "./components/manage"
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -12,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'VT323', monospace;
-    color: #231F20;
+    color: #fff;
     
     /* Full height */
     height: 100vh;
@@ -28,15 +31,31 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  height: 100vh;
+  overflow-y: scroll;
+`
 
 function App() {
+  const [boxSelected, setBoxSelected] = useState()
+
   return (
     <>
       <GlobalStyle />
-      <ParticlesBg type='square' bg={true} />
+      <ParticlesBg
+        type='square'
+        bg={true}
+      />
       <Wrapper>
         <Account />
+        {boxSelected ? (
+          <Manage data={boxSelected} setBoxSelected={setBoxSelected} />
+        ) : (
+          <>
+            <Title />
+            <Assets setBoxSelected={setBoxSelected} />
+          </>
+        )}
       </Wrapper>
     </>
   )
