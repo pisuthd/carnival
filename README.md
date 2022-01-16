@@ -20,6 +20,12 @@
 
 ## Deployment
 
+### Harmony Mainnet
+
+Contract Name | Contract Address 
+--- | --- 
+Fake Cryptokitties NFT | 0x10Fe6ecb9a49276E068274711560CDe41Deb3f34 
+
 ## License
 
 MIT ©
